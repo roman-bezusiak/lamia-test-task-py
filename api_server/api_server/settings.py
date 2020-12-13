@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'book_api.apps.BookApiConfig',
     'movie_api.apps.MovieApiConfig',
-    'rest_framework',
 ]
 
 MIDDLEWARE = [
