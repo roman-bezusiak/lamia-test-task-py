@@ -36,3 +36,10 @@ This project and its dependencies are supported on Ubuntu and Heroku VM.
 | **`OPENLIB_ISBN_API_URL`**  | OpenLibrary API URL |
 | **`CSRF_COOKIE_SECURE`**    | `True` to enable    |
 | **`SESSION_COOKIE_SECURE`** | `True` to enable    |
+
+## API
+
+| Route           | Type | Description    |
+| --------------- | ---- | -------------- |
+| **`/getBook`**  | API  | Book data API  |
+| **`/getMovie`** | API  | Movie data API |
