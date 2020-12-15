@@ -1,7 +1,7 @@
 from django.urls import path
 
-from . import views
+from .views import MovieJSONView
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', MovieJSONView.as_view()),
 ]

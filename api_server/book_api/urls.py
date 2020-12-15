@@ -1,7 +1,7 @@
 from django.urls import path
 
-from . import views
+from .views import BookJSONView
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', BookJSONView.as_view()),
 ]
