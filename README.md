@@ -1,6 +1,24 @@
 # lamia-test-task-py
 
-This client is currently available and running on [Heroku](https://lamia-py-api.herokuapp.com/) (as of 2020.12.05).
+This API is currently available and running on [Heroku](https://lamia-py-api.herokuapp.com/) (as of 2020.12.05).
+
+## Operating instructions
+
+In order to run the project locally use:
+
+```bash
+pwd
+"/.../project-root/"
+cd api_server
+python3 -m venv env
+source env/bin/activate
+pip install -r ../requirements.txt
+python manage.py runserver
+```
+
+## Platform
+
+This project and its dependencies are supported on Ubuntu and Heroku VM.
 
 ## Stack
 
