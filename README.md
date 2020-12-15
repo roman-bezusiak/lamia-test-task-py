@@ -25,7 +25,7 @@ This project and its dependencies are supported on Ubuntu and Heroku VM.
 - Django
 - Gunicorn
 
-## Environmant variables
+## Environment variables
 
 | Name                        | Description         |
 | --------------------------- | ------------------- |
