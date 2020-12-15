@@ -17,9 +17,9 @@ class BookJSONView(View):
         """
 
         # Validating presense of necessary request parameter
-        isbn = request.GET.dict().get("isbn")
-        if not isbn:
-            return HttpResponseBadRequest("No \"isbn\" parameter found")
+        isbn, error_response = self.validate_request(request)
+        if error_response:
+            return error_response
 
         # Sending request to OpenLibrary API endpoint
         # API reference: https://openlibrary.org/dev/docs/api/books
@@ -37,6 +37,7 @@ class BookJSONView(View):
 
         return self.select_response(data)
 
+
     def create_openlib_url_query(self, isbn):
         """
         Forms URL query string for OpenLibrary API from ISBN
@@ -48,6 +49,26 @@ class BookJSONView(View):
         
         return f"{OPENLIB_ISBN_API_URL}{url_path}"
 
+
+    def validate_request(self, request):
+        """
+        Validates incoming request. Returns request `isbn` and `error_response`
+        in that exact order. On success only `error_response` is None, on
+        failure - only `isbn`.
+        """
+
+        params = request.GET.dict()
+        isbn   = params.get('isbn')
+
+        if not isbn:
+            return (
+                None,
+                HttpResponseBadRequest('At least 1 required parameter is missing')
+            )
+        else:
+            return (isbn, None)
+
+
     def parse_response_json(self, response):
         """
         Returns parsed JSON of the response if successful, if not - None
@@ -57,6 +78,7 @@ class BookJSONView(View):
             return response.json() # Parsing received JSON
         except ValueError:
             return None
+
 
     def select_response(self, data):
         """

@@ -44,6 +44,7 @@ class MovieJSONView(View):
         
         return self.select_response(data)
 
+
     def validate_request(self, request):
         """
         Validates incoming request. Returns request parameters and
@@ -64,6 +65,7 @@ class MovieJSONView(View):
         else:
             return (title, year, plot, None)
 
+
     def parse_response_json(self, response):
         """
         Returns parsed JSON of the response if successful, if not - None
@@ -73,6 +75,7 @@ class MovieJSONView(View):
             return response.json() # Parsing received JSON
         except ValueError:
             return None
+
 
     def select_response(self, data):
         """
