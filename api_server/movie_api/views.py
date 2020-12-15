@@ -7,17 +7,21 @@ from api_server.settings import OMDB_API_TOKEN
 from api_server.settings import OMDB_API_URL
 
 class MovieJSONView(View):
+    """
+    This class handles movie request handling and view representation.
+    """
+
     def get(self, request):
-        """Main function of the Movie API"""
+        """
+        Main GET request handler. Requires 3 parameters of a movie:
+            1. Title (`title`)
+            2. Year  (`year`)
+            3. Plot  (`plot`)
+        """
 
-        params = request.GET.dict()
-        title  = params.get('title')
-        year   = params.get('year')
-        plot   = params.get('plot')
-
-        # Validating presense of necessary request parameters
-        if (not title) or (not year) or (not plot):
-            return HttpResponseBadRequest('At least 1 required parameter is missing')
+        title, year, plot, error_response = self.validate_request(request)
+        if error_response:
+            return error_response
 
         # Sending request to OMDb API endpoint
         # API reference: http://www.omdbapi.com/
@@ -28,19 +32,56 @@ class MovieJSONView(View):
             'y':      year,           # Year of release
             'p':      plot            # Return short or full plot
         })
-        status = omdb_response.status_code
 
         # HTTP response status check
+        status = omdb_response.status_code
         if status != HTTPStatus.OK:
             response             = HttpResponse('OMDb API error')
             response.status_code = status
             return response
 
-        try:
-            data = omdb_response.json()
+        data = self.parse_response_json(omdb_response)
+        
+        return self.select_response(data)
 
-            # This validation is required, because OMDb returns
-            # status 200 when nothing is found
+    def validate_request(self, request):
+        """
+        Validates incoming request. Returns request parameters and
+        `error_response` in that exact order. On success only `error_response`
+        is None, on failure - all the parameters are.
+        """
+
+        params = request.GET.dict()
+        title  = params.get('title')
+        year   = params.get('year')
+        plot   = params.get('plot')
+
+        if (not title) or (not year) or (not plot):
+            return (
+                None, None, None,
+                HttpResponseBadRequest('At least 1 required parameter is missing')
+            )
+        else:
+            return (title, year, plot, None)
+
+    def parse_response_json(self, response):
+        """
+        Returns parsed JSON of the response if successful, if not - None
+        """
+
+        try:
+            return response.json() # Parsing received JSON
+        except ValueError:
+            return None
+
+    def select_response(self, data):
+        """
+        Returns a proper response relying on API response data
+        """
+
+        if data:
+            # Validating the response content. This is required, because
+            # OMDb returns status 200 when nothing is found
             if data.get('Response') == 'False':
                 error_message = data.get('Error')
 
@@ -50,7 +91,7 @@ class MovieJSONView(View):
                     return HttpResponseServerError(error_message)
                 else:
                     return HttpResponseServerError()
-        except ValueError:
-            return HttpResponseServerError('OMDb API returned invalid JSON')
 
-        return JsonResponse(data)
+            return JsonResponse(data)
+        else:
+            return HttpResponseServerError('OpenLibrary API returned invalid JSON')
