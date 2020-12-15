@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = get_env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_env('DEBUG') == '1'
+DEBUG = get_env('DEBUG') == 'True'
 
 ALLOWED_HOSTS = [
     'lamia-py-api.herokuapp.com',
@@ -136,8 +136,15 @@ OMDB_API_TOKEN = get_env('OMDB_API_TOKEN')
 
 # Open Library ISBN API URL
 # Link: https://openlibrary.org/dev/docs/api/books
-OMDB_API_URL = 'http://www.omdbapi.com/'
+OMDB_API_URL = get_env('OMDB_API_URL')
 
 # Open Library ISBN API URL
 # Link: https://openlibrary.org/dev/docs/api/books
-OPENLIB_ISBN_API_URL = "https://openlibrary.org/isbn/"
+OPENLIB_ISBN_API_URL = get_env('OPENLIB_ISBN_API_URL')
+
+
+# Security
+
+CSRF_COOKIE_SECURE = get_env('CSRF_COOKIE_SECURE') == 'True'
+
+SESSION_COOKIE_SECURE = get_env('SESSION_COOKIE_SECURE') == 'True'
