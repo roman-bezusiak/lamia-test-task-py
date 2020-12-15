@@ -18,7 +18,7 @@ python manage.py runserver
 
 ## Platform
 
-This project and its dependencies are supported on Ubuntu and Heroku VM.
+This project and its dependencies are supported on **Ubuntu** and **Heroku VM**.
 
 ## Stack
 
@@ -27,15 +27,16 @@ This project and its dependencies are supported on Ubuntu and Heroku VM.
 
 ## Environment variables
 
-| Name                        | Description         |
-| --------------------------- | ------------------- |
-| **`SECRET_KEY`**            | Django secret key   |
-| **`DEBUG`**                 | `True` to enable    |
-| **`OMDB_API_TOKEN`**        | OMBb API token      |
-| **`OMDB_API_URL`**          | OMBb API URL        |
-| **`OPENLIB_ISBN_API_URL`**  | OpenLibrary API URL |
-| **`CSRF_COOKIE_SECURE`**    | `True` to enable    |
-| **`SESSION_COOKIE_SECURE`** | `True` to enable    |
+| Name                        | Description                                               |
+| --------------------------- | --------------------------------------------------------- |
+| **`CSRF_COOKIE_SECURE`**    | `True` to enable                                          |
+| **`DEBUG`**                 | `True` to enable                                          |
+| **`DISABLE_COLLECTSTATIC`** | `1` (this is only required, when deploying to **Heroku**) |
+| **`OMDB_API_TOKEN`**        | OMBb API token                                            |
+| **`OMDB_API_URL`**          | OMBb API URL                                              |
+| **`OPENLIB_ISBN_API_URL`**  | OpenLibrary API URL                                       |
+| **`SECRET_KEY`**            | Django secret key                                         |
+| **`SESSION_COOKIE_SECURE`** | `True` to enable                                          |
 
 ## API
 
